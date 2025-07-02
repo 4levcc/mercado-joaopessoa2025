@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INOVARE | Análise Interativa de Mercado: Oportunidade em João Pessoa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony (Warm Neutrals with Soft Blue/Green Accents) -->
+    <!-- Application Structure Plan: The SPA follows a narrative arc designed for user comprehension. It starts with a high-level hook (the economic potential), narrows down to the specific target audience (MPEs), identifies their core problem (management pains), introduces the competitive landscape, and finally presents INOVARE as the tailored solution that fits the identified market gap. This structure guides the user from "What is the opportunity?" to "Why is INOVARE the right choice?", which is more persuasive and easier to follow than the report's original sectioning. Key interactions involve hovering over charts for details, allowing users to engage with data points directly. -->
+    <!-- Visualization & Content Choices: 
+        - PIB da RMJP (R$ 36,2 Bi) -> Goal: Inform -> Viz: Large Stat Card -> Justification: Immediately establishes scale and grabs attention. -> Method: Styled HTML.
+        - Composição do PIB de JP -> Goal: Compare -> Viz: Donut Chart -> Justification: Effectively shows the dominant proportion of the Services sector. -> Library: Chart.js.
+        - Distribuição de Empresas por Porte -> Goal: Compare -> Viz: Horizontal Bar Chart -> Justification: Best for comparing categories with long labels, clearly showing MPE dominance. -> Library: Chart.js.
+        - Dores do Gestor -> Goal: Inform -> Viz: Large Stat Card & Styled HTML Flow Diagram -> Justification: The large stat ("9 em 10") creates impact, while the flow diagram visually explains the abstract concept of the "vicious cycle". -> Method: Styled HTML.
+        - Método INOVARE -> Goal: Organize -> Viz: Numbered Step Diagram -> Justification: Clearly breaks down the proprietary process into digestible steps for the user. -> Method: Styled HTML.
+        - Análise Competitiva -> Goal: Organize/Compare -> Viz: Tiered Column Layout -> Justification: Visually segments the competition into understandable levels, making it easy to see the strategic gap where INOVARE fits. -> Method: Styled HTML.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #3d405b;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .flow-arrow::after {
+            content: '↓';
+            font-size: 1.5rem;
+            color: #81b29a;
+            margin: 0.5rem 0;
+            display: block;
+            text-align: center;
+        }
+        .flow-arrow:last-child::after {
+            display: none;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link:hover {
+            color: #e07a5f;
+            border-bottom-color: #e07a5f;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-[#3d405b]">
+                INOVARE<span class="text-[#e07a5f]">.</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#oportunidade" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">A Oportunidade</a>
+                <a href="#desafio" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">O Desafio</a>
+                <a href="#solucao" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">A Solução</a>
+                <a href="#veredicto" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">O Veredicto</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="oportunidade" class="text-center my-12 md:my-20">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-tight">Um Ecossistema de <span class="text-[#81b29a]">R$ 36 Bilhões</span><br>Aguardando por Inteligência.</h1>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl mt-6 text-gray-700">A Região Metropolitana de João Pessoa é um dos motores econômicos do Nordeste. Mas por trás dos grandes números, existe uma necessidade latente de gestão financeira estratégica que o crescimento acelerado exige.</p>
+        </section>
+
+        <section class="my-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">O Cenário: Uma Economia Pulsante</h2>
+                <p class="max-w-2xl mx-auto mt-4 text-gray-600">Para entender o potencial, primeiro precisamos dimensionar o campo de jogo. A economia local é robusta, concentrada e dominada por um setor que é o alvo primário da INOVARE.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-200">
+                    <h3 class="text-lg font-bold text-[#81b29a] mb-2">A Força Dominante dos Serviços</h3>
+                    <p class="text-gray-600 mb-4">O setor de Serviços é a espinha dorsal da economia da capital, representando a maior fatia do valor adicionado. Isso indica um mercado maduro para consultorias que otimizam processos e gestão, em vez de produção física.</p>
+                    <div class="chart-container">
+                        <canvas id="pibCompositionChart"></canvas>
+                    </div>
+                </div>
+                 <div class="bg-white rounded-xl shadow-md p-6 border border-gray-200">
+                    <h3 class="text-lg font-bold text-[#81b29a] mb-2">O Coração do Mercado: O Poder das MPEs</h3>
+                     <p class="text-gray-600 mb-4">A esmagadora maioria das empresas locais são micro e pequenas. Elas são o verdadeiro motor da economia e o público que mais necessita de inteligência financeira para competir e crescer de forma sustentável.</p>
+                    <div class="chart-container" style="height: 350px;">
+                        <canvas id="mpeShareChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-t-2 border-gray-200 my-16 md:my-24">
+
+        <section id="desafio" class="my-16">
+             <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">A Dor Latente do Gestor Paraibano</h2>
+                <p class="max-w-2xl mx-auto mt-4 text-gray-600">O crescimento traz complexidade. Gestores de PMEs, frequentemente heróis solitários em seus negócios, enfrentam um ciclo vicioso de sobrecarga que impede o pensamento estratégico e ameaça a saúde financeira da empresa.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="bg-[#3d405b] text-white rounded-xl shadow-lg p-8 text-center flex flex-col justify-center h-full">
+                    <h3 class="text-xl font-bold text-[#f2cc8f] mb-4">A Luta Pela Gestão Financeira</h3>
+                    <div class="flex justify-center items-center space-x-4">
+                        <span class="text-8xl font-black text-white">9</span>
+                        <span class="text-3xl font-bold text-left leading-tight">em cada<br>10 líderes</span>
+                    </div>
+                    <p class="mt-4 text-lg text-gray-300">de PMEs admitem ter dificuldades para estabelecer uma gestão financeira eficaz, operando em um ciclo constante de apagar incêndios em vez de construir o futuro.</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-8 border border-gray-200 h-full">
+                    <h3 class="text-xl font-bold text-[#81b29a] mb-6 text-center">O Ciclo Vicioso da Sobrecarga Operacional</h3>
+                    <div class="flex flex-col items-center">
+                        <div class="w-full max-w-sm text-center">
+                            <div class="bg-gray-100 p-3 rounded-lg shadow-inner flow-arrow">
+                                <h4 class="font-bold">Tarefas Operacionais</h4>
+                                <p class="text-sm text-gray-600">Gestor focado no dia a dia, "apagando incêndios".</p>
+                            </div>
+                            <div class="bg-gray-100 p-3 rounded-lg shadow-inner flow-arrow">
+                                <h4 class="font-bold">Falta de Tempo Estratégico</h4>
+                                <p class="text-sm text-gray-600">Não há tempo para analisar dados e planejar.</p>
+                            </div>
+                            <div class="bg-gray-100 p-3 rounded-lg shadow-inner flow-arrow">
+                                <h4 class="font-bold">Decisões sem Base em Dados</h4>
+                                <p class="text-sm text-gray-600">Estratégias baseadas em intuição aumentam os riscos.</p>
+                            </div>
+                            <div class="bg-gray-100 p-3 rounded-lg shadow-inner">
+                                <h4 class="font-bold text-[#e07a5f]">Erosão Financeira</h4>
+                                <p class="text-sm text-gray-600">Fluxo de caixa apertado e custos fora de controle.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-t-2 border-gray-200 my-16 md:my-24">
+        
+        <section id="solucao" class="my-16 bg-white rounded-xl shadow-lg border border-gray-200 p-8 md:p-12">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold">O Antídoto: Inteligência Financeira como Serviço</h2>
+                <p class="max-w-2xl mx-auto mt-4 mb-12 text-gray-600">A INOVARE não terceiriza tarefas, ela implementa um cérebro financeiro. Nossa metodologia transforma seus dados operacionais, muitas vezes caóticos, em um ativo estratégico claro e poderoso.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="flex flex-col items-center">
+                    <div class="bg-[#3d405b] text-white rounded-full w-20 h-20 flex items-center justify-center text-3xl font-black shadow-md mb-4">1</div>
+                    <h3 class="text-lg font-bold mb-2">Extração e Auditoria</h3>
+                    <p class="text-gray-600 text-sm">Acessamos os dados direto do seu sistema, garantindo a análise da sua realidade operacional, não de resumos.</p>
+                </div>
+                 <div class="flex flex-col items-center">
+                    <div class="bg-[#3d405b] text-white rounded-full w-20 h-20 flex items-center justify-center text-3xl font-black shadow-md mb-4">2</div>
+                    <h3 class="text-lg font-bold mb-2">Tratamento e Classificação</h3>
+                    <p class="text-gray-600 text-sm">Limpamos, classificamos e auditamos cada valor, assegurando a integridade e confiabilidade da informação.</p>
+                </div>
+                 <div class="flex flex-col items-center">
+                    <div class="bg-[#3d405b] text-white rounded-full w-20 h-20 flex items-center justify-center text-3xl font-black shadow-md mb-4">3</div>
+                    <h3 class="text-lg font-bold mb-2">Transformação em Inteligência</h3>
+                    <p class="text-gray-600 text-sm">Modelamos os dados para revelar tendências, padrões e insights que servem de base para a sua decisão.</p>
+                </div>
+                 <div class="flex flex-col items-center">
+                    <div class="bg-[#e07a5f] text-white rounded-full w-20 h-20 flex items-center justify-center text-3xl font-black shadow-md mb-4">4</div>
+                    <h3 class="text-lg font-bold mb-2">Decisão Estratégica</h3>
+                    <p class="text-gray-600 text-sm">Entregamos clareza e um acompanhamento contínuo que transformam seu financeiro em uma arma competitiva.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-t-2 border-gray-200 my-16 md:my-24">
+        
+        <section id="veredicto" class="my-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">O Encaixe Perfeito no Mercado</h2>
+                <p class="max-w-2xl mx-auto mt-4 text-gray-600">O mercado de consultoria local é segmentado. A INOVARE não compete diretamente, ela cria uma nova categoria ao preencher a lacuna estratégica entre a operação e a decisão.</p>
+            </div>
+            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <h3 class="font-bold text-lg text-gray-500">NÍVEL 1: BPO Operacional</h3>
+                    <p class="text-sm mt-2 text-gray-600">Foco em executar tarefas financeiras. Competem por eficiência e preço.</p>
+                </div>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <h3 class="font-bold text-lg text-gray-500">NÍVEL 2: Consultoria Geral</h3>
+                    <p class="text-sm mt-2 text-gray-600">Foco em gestão ampla, podendo carecer de profundidade na análise de dados financeiros.</p>
+                </div>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <h3 class="font-bold text-lg text-gray-500">NÍVEL 3: Nicho Especialista</h3>
+                    <p class="text-sm mt-2 text-gray-600">Foco em uma única entrega de alto valor (ex: Laudo de Valuation).</p>
+                </div>
+                <div class="md:col-span-3 mt-6 bg-white shadow-xl rounded-lg p-8 border-4 border-[#81b29a]">
+                    <h3 class="font-black text-xl md:text-2xl text-center text-[#3d405b]">O ESPAÇO DA INOVARE: Parceiro de Inteligência Estratégica</h3>
+                    <p class="text-md md:text-lg mt-4 text-center text-gray-700">Utilizamos os dados do <span class="font-bold">Nível 1</span> para alimentar uma consultoria estratégica contínua (<span class="font-bold">Nível 2</span>) e entregar produtos de alto valor (<span class="font-bold">Nível 3</span>) de forma integrada. <span class="font-bold text-[#e07a5f]">Nós não apenas executamos, nós transformamos dados em lucro.</span></p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-[#3d405b] text-white mt-16">
+        <div class="container mx-auto px-6 py-12 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold">Veredicto Final: A oportunidade é clara e presente.</h2>
+            <p class="text-lg mt-4 mb-8 text-gray-300 max-w-2xl mx-auto">A expansão para João Pessoa é altamente recomendável. O potencial de mercado é elevado e a proposta de valor da INOVARE está posicionada de forma única para ter sucesso.</p>
+            <button class="bg-[#e07a5f] hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                Inicie com um Diagnóstico Gratuito
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        const colorPalette = {
+            darkBlue: '#3d405b',
+            orange: '#e07a5f',
+            green: '#81b29a',
+            yellow: '#f2cc8f',
+            background: '#f8f7f4',
+        };
+
+        const defaultTooltipOptions = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        function wrapLabel(str, maxWidth = 16) {
+            if (typeof str !== 'string' || str.length <= maxWidth) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + words[i].length + 1 < maxWidth) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const pibCtx = document.getElementById('pibCompositionChart')?.getContext('2d');
+        if (pibCtx) {
+            new Chart(pibCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Serviços', 'Adm. Pública', 'Indústria'],
+                    datasets: [{
+                        label: 'Composição do PIB de João Pessoa',
+                        data: [60.1, 22.5, 17.2],
+                        backgroundColor: [
+                            colorPalette.green,
+                            colorPalette.yellow,
+                            colorPalette.darkBlue
+                        ],
+                        borderColor: colorPalette.background,
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        ...defaultTooltipOptions.plugins,
+                        legend: {
+                            position: 'bottom',
+                             labels: {
+                                color: colorPalette.darkBlue,
+                                font: { size: 12 }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        const mpeCtx = document.getElementById('mpeShareChart')?.getContext('2d');
+        if (mpeCtx) {
+            const mpeLabels = [
+                'Microempresas (até 9 func.)', 
+                'Pequenas Empresas (10-49 func.)', 
+                'Médias Empresas (50-249 func.)', 
+                'Grandes Empresas (250+ func.)'
+            ];
+            new Chart(mpeCtx, {
+                type: 'bar',
+                data: {
+                    labels: mpeLabels.map(label => wrapLabel(label, 20)),
+                    datasets: [{
+                        label: '% do Total de Empresas',
+                        data: [75.2, 20.7, 3.3, 0.8],
+                        backgroundColor: [
+                            colorPalette.green,
+                            colorPalette.yellow,
+                            colorPalette.darkBlue,
+                            colorPalette.orange
+                        ],
+                        borderRadius: 5,
+                        borderWidth: 0,
+                        barPercentage: 0.8,
+                        categoryPercentage: 0.7
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: { display: false },
+                             ticks: { color: colorPalette.darkBlue, font: {size: 10} },
+                             title: { display: true, text: '% do Total', color: colorPalette.darkBlue }
+                        },
+                        y: {
+                             ticks: { color: colorPalette.darkBlue, font: {size: 12} },
+                             grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                         ...defaultTooltipOptions.plugins,
+                        legend: { display: false },
+                    }
+                }
+            });
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
