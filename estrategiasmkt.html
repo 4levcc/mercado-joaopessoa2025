@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INOVARE | Dashboard Estratégico: Paraíba</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony (Warm Neutrals with Green/Orange Accents) -->
+    <!-- Application Structure Plan: The SPA is designed as an interactive dashboard with four main tabs: 'O Veredicto', 'O Mercado', 'A Competição', and 'Plano de Ação'. This structure allows a non-linear exploration of the synthesized report. Users can quickly grasp the conclusion ('Veredicto') or dive deep into the data ('Mercado'), competitive landscape, or the proposed marketing strategies. This is more user-friendly and functional than a long, linear report, enabling quick access to specific information blocks. Interactions include tab switching, chart hovers, and clickable cards in the action plan. -->
+    <!-- Visualization & Content Choices: 
+        - Veredicto: Goal: Inform -> Viz: Key Stat Cards -> Justification: Provides a high-impact summary of the opportunity upfront. -> Method: Styled HTML/Tailwind.
+        - Composição do PIB: Goal: Compare -> Viz: Donut Chart -> Justification: Best for showing proportional composition of the economy. -> Library: Chart.js.
+        - Estrutura Empresarial: Goal: Compare -> Viz: Horizontal Bar Chart -> Justification: Clearly visualizes the dominance of MPEs, ideal for categories with longer labels. -> Library: Chart.js.
+        - Cenário Competitivo: Goal: Organize -> Viz: Tiered Diagram -> Justification: Visually explains the different levels of competition and highlights INOVARE's unique strategic position in the market gap. -> Method: Styled HTML/Tailwind.
+        - Plano de Ação: Goal: Organize/Inform -> Viz: Interactive Toggling Cards -> Justification: Allows users to explore the four pillars of the marketing strategy in a clean, organized way, without overwhelming them with information. -> Method: HTML/Tailwind + JS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f4f5f7; }
+        .tab-button { transition: all 0.3s ease; }
+        .tab-button.active {
+            color: #3d405b;
+            border-bottom-color: #81b29a;
+            font-weight: 700;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 280px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) { .chart-container { height: 320px; } }
+        .strategy-card .content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding-top 0.5s ease-in-out;
+        }
+        .strategy-card.open .content {
+            max-height: 1000px;
+            padding-top: 1rem;
+        }
+        .strategy-card.open .icon { transform: rotate(180deg); }
+        .icon { transition: transform 0.3s ease; }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-[#3d405b]">Dashboard Estratégico</h1>
+            <p class="text-md text-gray-600">Plano de Expansão para a Paraíba: Uma Análise Interativa</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <div class="bg-white rounded-lg shadow-sm mb-8">
+            <div id="tabs" class="border-b border-gray-200 flex flex-wrap">
+                <button data-tab="veredicto" class="tab-button text-gray-500 py-4 px-6 block hover:text-[#3d405b] focus:outline-none border-b-4 border-transparent active">O Veredicto</button>
+                <button data-tab="mercado" class="tab-button text-gray-500 py-4 px-6 block hover:text-[#3d405b] focus:outline-none border-b-4 border-transparent">O Mercado</button>
+                <button data-tab="competicao" class="tab-button text-gray-500 py-4 px-6 block hover:text-[#3d405b] focus:outline-none border-b-4 border-transparent">A Competição</button>
+                <button data-tab="plano" class="tab-button text-gray-500 py-4 px-6 block hover:text-[#3d405b] focus:outline-none border-b-4 border-transparent">Plano de Ação</button>
+            </div>
+        </div>
+
+        <div id="tab-contents">
+            <!-- Veredicto Tab -->
+            <div id="veredicto-content" class="tab-content active">
+                <div class="bg-white p-6 md:p-8 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-1 text-[#3d405b]">Recomendação Final: Expansão Altamente Viável</h2>
+                    <p class="text-gray-600 mb-6">A análise converge para uma recomendação inequívoca. O mercado paraibano apresenta uma rara combinação de tamanho, dinamismo, dores latentes e lacunas competitivas, criando um ambiente ideal para a entrada da INOVARE.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div class="bg-[#f4f5f7] p-6 rounded-lg">
+                            <h3 class="text-4xl font-black text-[#81b29a]">R$ 36 Bi</h3>
+                            <p class="mt-2 font-semibold">PIB da Região Metropolitana</p>
+                            <p class="text-sm text-gray-600">Um mercado com escala e poder de compra para sustentar serviços de alto valor.</p>
+                        </div>
+                        <div class="bg-[#f4f5f7] p-6 rounded-lg">
+                            <h3 class="text-4xl font-black text-[#e07a5f]">95,9%</h3>
+                            <p class="mt-2 font-semibold">de Empresas são MPEs</p>
+                            <p class="text-sm text-gray-600">Um público-alvo massivo que sofre com sobrecarga gerencial e falta de estrutura financeira.</p>
+                        </div>
+                        <div class="bg-[#f4f5f7] p-6 rounded-lg">
+                            <h3 class="text-4xl font-black text-[#3d405b]">#1</h3>
+                            <p class="mt-2 font-semibold">Lacuna Estratégica</p>
+                            <p class="text-sm text-gray-600">Posição única acima do BPO operacional e mais focada que consultorias generalistas.</p>
+                        </div>
+                    </div>
+                    <div class="mt-8 border-t pt-6">
+                        <h3 class="text-xl font-bold mb-2">Análise SWOT Resumida</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                            <div><span class="font-bold text-[#81b29a]">Forças:</span> Metodologia de dados diferenciada; Portfólio de alto valor (Valuation, etc.).</div>
+                            <div><span class="font-bold text-[#e07a5f]">Fraquezas:</span> Marca desconhecida na região; Ausência de base de clientes local.</div>
+                            <div><span class="font-bold text-[#81b29a]">Oportunidades:</span> Mercado robusto em crescimento; Ecossistema de fomento (SEBRAE, Empreender PB).</div>
+                            <div><span class="font-bold text-[#e07a5f]">Ameaças:</span> Concorrência estabelecida; Risco de comoditização do BPO.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mercado Tab -->
+            <div id="mercado-content" class="tab-content">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-xl font-bold mb-2">Composição da Economia de João Pessoa</h3>
+                        <p class="text-sm text-gray-600 mb-4">A economia é fortemente orientada para os serviços, indicando um mercado maduro para consultorias que otimizam processos e gestão, em vez de produção física.</p>
+                        <div class="chart-container">
+                            <canvas id="pibChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-xl font-bold mb-2">Estrutura Empresarial da Paraíba</h3>
+                        <p class="text-sm text-gray-600 mb-4">As Micro e Pequenas Empresas formam a esmagadora maioria do mercado, definindo um público que possui complexidade, mas carece de estrutura de gestão interna.</p>
+                        <div class="chart-container">
+                            <canvas id="mpeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow mt-8">
+                    <h3 class="text-xl font-bold mb-4">O Desafio Central: A Dor do Gestor de PME</h3>
+                    <p class="text-gray-600 mb-6">A principal oportunidade não está apenas nos números, mas na dor latente dos gestores. A sobrecarga operacional leva a uma gestão financeira deficiente, a principal causa de mortalidade empresarial. A INOVARE soluciona diretamente este problema.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-5xl font-black text-[#e07a5f]">9/10</div>
+                            <p class="mt-2 font-semibold">Líderes de PMEs enfrentam dificuldades com a gestão financeira.</p>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <div class="text-5xl font-black text-[#e07a5f]">60%</div>
+                            <p class="mt-2 font-semibold">Das empresas fecham em menos de 5 anos, principalmente por má gestão.</p>
+                        </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                           <div class="text-5xl font-black text-[#e07a5f]">98%</div>
+                           <p class="mt-2 font-semibold">Dos gestores acumulam funções em 5 áreas distintas, causando sobrecarga.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Competição Tab -->
+            <div id="competicao-content" class="tab-content">
+                <div class="bg-white p-6 md:p-8 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-2">Mapeamento do Cenário Competitivo</h2>
+                    <p class="text-gray-600 mb-8">O mercado de consultoria na Paraíba é segmentado em três níveis distintos. A INOVARE não entra em uma competição direta, mas se posiciona em uma lacuna estratégica, oferecendo uma solução integrada que os concorrentes não possuem.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <h3 class="font-bold text-lg text-gray-500">NÍVEL 1: BPO Operacional</h3>
+                            <p class="text-sm mt-2 text-gray-600">**Foco:** Execução de tarefas financeiras (contas a pagar/receber). <br><strong>Exs:</strong> NBL BPO, Pontual Consultoria.</p>
+                        </div>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <h3 class="font-bold text-lg text-gray-500">NÍVEL 2: Consultoria Generalista</h3>
+                            <p class="text-sm mt-2 text-gray-600">**Foco:** Gestão empresarial ampla (Marketing, RH, etc.). <br><strong>Exs:</strong> EJA Consultoria, Pronorte.</p>
+                        </div>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <h3 class="font-bold text-lg text-gray-500">NÍVEL 3: Nicho Especialista</h3>
+                            <p class="text-sm mt-2 text-gray-600">**Foco:** Entrega única de alto valor (Valuation, crise). <br><strong>Exs:</strong> Poggi Consultoria, AsplanPB.</p>
+                        </div>
+                    </div>
+                    <div class="mt-8 bg-[#3d405b] text-white shadow-xl rounded-lg p-8 border-4 border-[#81b29a]">
+                        <h3 class="font-black text-xl md:text-2xl text-center text-white">O Oceano Azul da INOVARE: Parceiro de Inteligência Estratégica</h3>
+                        <p class="text-md md:text-lg mt-4 text-center text-gray-300">A INOVARE se posiciona como a evolução na jornada de gestão de uma PME. Usamos os dados da <span class="font-bold text-[#f2cc8f]">operação (Nível 1)</span> para alimentar uma <span class="font-bold text-[#f2cc8f]">consultoria estratégica contínua (Nível 2)</span> e entregar <span class="font-bold text-[#f2cc8f]">soluções de alto valor (Nível 3)</span> de forma integrada. Não vendemos tarefas, vendemos inteligência para o crescimento.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Plano de Ação Tab -->
+            <div id="plano-content" class="tab-content">
+                <div class="bg-white p-6 md:p-8 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-2">Plano de Ação: Roteiro de Marketing Estratégico</h2>
+                    <p class="text-gray-600 mb-8">Uma estratégia de entrada faseada, focada em construir autoridade, gerar leads qualificados e solidificar a INOVARE como a referência em finanças estratégicas na Paraíba. Clique em cada pilar para ver os detalhes.</p>
+                    
+                    <div class="space-y-4">
+                        <div class="strategy-card border rounded-lg overflow-hidden">
+                            <div class="header flex justify-between items-center p-4 bg-gray-50 cursor-pointer">
+                                <h3 class="text-lg font-bold text-[#3d405b]">1. Marketing de Fundação e Conteúdo</h3>
+                                <div class="icon text-2xl text-[#3d405b]">▼</div>
+                            </div>
+                            <div class="content p-4 border-t">
+                                <p><strong>Objetivo:</strong> Construir credibilidade e atrair o público-alvo respondendo diretamente às suas dores.</p>
+                                <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                    <li><strong>"Diagnóstico Gratuito":</strong> Posicionar como a principal ferramenta de geração de leads em todas as comunicações.</li>
+                                    <li><strong>Conteúdo Educativo:</strong> Criar artigos, e-books e webinars sobre temas como "Gestão de Fluxo de Caixa" e "Plano de Negócios para o Empreender PB".</li>
+                                    <li><strong>Canais:</strong> Blog, LinkedIn, E-mail Marketing.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="strategy-card border rounded-lg overflow-hidden">
+                            <div class="header flex justify-between items-center p-4 bg-gray-50 cursor-pointer">
+                                <h3 class="text-lg font-bold text-[#3d405b]">2. Publicidade Digital Direcionada</h3>
+                                <div class="icon text-2xl text-[#3d405b]">▼</div>
+                            </div>
+                            <div class="content p-4 border-t">
+                                <p><strong>Objetivo:</strong> Acelerar a geração de leads, capturando a demanda existente e alcançando tomadores de decisão.</p>
+                                <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                    <li><strong>Google Ads:</strong> Focar em palavras-chave de alta intenção ("consultoria financeira joão pessoa", "plano de negócios empreender pb").</li>
+                                    <li><strong>LinkedIn Ads:</strong> Direcionar anúncios para Sócios, Proprietários e Diretores de PMEs (1-50 funcionários) na Paraíba.</li>
+                                    <li><strong>CTA Principal:</strong> Levar sempre ao Diagnóstico Gratuito.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="strategy-card border rounded-lg overflow-hidden">
+                            <div class="header flex justify-between items-center p-4 bg-gray-50 cursor-pointer">
+                                <h3 class="text-lg font-bold text-[#3d405b]">3. Ecossistema de Parcerias</h3>
+                                <div class="icon text-2xl text-[#3d405b]">▼</div>
+                            </div>
+                            <div class="content p-4 border-t">
+                                <p><strong>Objetivo:</strong> Criar um motor de referências qualificadas, alavancando a confiança de entidades estabelecidas.</p>
+                                <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                    <li><strong>SEBRAE/PB:</strong> Ação prioritária de credenciamento no SGF para acesso ao programa Sebraetec (subsídio de até 70%).</li>
+                                    <li><strong>Escritórios de Contabilidade:</strong> Criar um programa de parceria para referências mútuas, posicionando a INOVARE como um complemento estratégico.</li>
+                                    <li><strong>Associações (ACPB, CDL):</strong> Tornar-se membro, oferecer workshops e palestras para ganhar visibilidade e autoridade.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="strategy-card border rounded-lg overflow-hidden">
+                            <div class="header flex justify-between items-center p-4 bg-gray-50 cursor-pointer">
+                                <h3 class="text-lg font-bold text-[#3d405b]">4. Marketing de Alto Contato e RP</h3>
+                                <div class="icon text-2xl text-[#3d405b]">▼</div>
+                            </div>
+                             <div class="content p-4 border-t">
+                                <p><strong>Objetivo:</strong> Humanizar a marca, construir relacionamentos e posicionar os líderes como referência no estado.</p>
+                                <ul class="list-disc list-inside mt-2 space-y-1 text-gray-700">
+                                    <li><strong>Eventos Estratégicos:</strong> Participar (com palestras) da Feira do Empreendedor e Startup Day.</li>
+                                    <li><strong>Eventos Proprietários:</strong> Criar o "Fórum de Finanças Estratégicas da INOVARE" para networking de alto nível.</li>
+                                    <li><strong>Relações Públicas:</strong> Construir relacionamento com a mídia local (Jornal da Paraíba, MaisPB) para se tornar fonte de análise econômica.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const colorPalette = {
+            darkBlue: '#3d405b',
+            orange: '#e07a5f',
+            green: '#81b29a',
+            yellow: '#f2cc8f',
+            background: '#f4f5f7',
+        };
+
+        const defaultTooltipOptions = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: (tooltipItems) => {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            return Array.isArray(label) ? label.join(' ') : label;
+                        }
+                    }
+                }
+            }
+        };
+
+        function wrapLabel(str, maxWidth = 16) {
+            if (typeof str !== 'string' || str.length <= maxWidth) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + ' ' + words[i]).length < maxWidth) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const tabs = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(item => item.classList.remove('active'));
+                tab.classList.add('active');
+
+                const target = tab.getAttribute('data-tab');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${target}-content`) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        const pibCtx = document.getElementById('pibChart')?.getContext('2d');
+        if (pibCtx) {
+            new Chart(pibCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Serviços', 'Adm. Pública', 'Indústria'],
+                    datasets: [{
+                        label: 'Composição do PIB de João Pessoa',
+                        data: [60.1, 22.5, 17.2],
+                        backgroundColor: [colorPalette.green, colorPalette.yellow, colorPalette.darkBlue],
+                        borderColor: '#fff',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        ...defaultTooltipOptions.plugins,
+                        legend: { position: 'bottom', labels: { color: colorPalette.darkBlue, font: { size: 12 } } }
+                    }
+                }
+            });
+        }
+        
+        const mpeCtx = document.getElementById('mpeChart')?.getContext('2d');
+        if (mpeCtx) {
+            new Chart(mpeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Microempresas', 'Pequenas Empresas', 'Médias Empresas', 'Grandes Empresas'],
+                    datasets: [{
+                        label: '% do Total de Empresas',
+                        data: [75.2, 20.7, 3.3, 0.8],
+                        backgroundColor: [colorPalette.green, colorPalette.yellow, colorPalette.darkBlue, colorPalette.orange],
+                        borderRadius: 5,
+                        barPercentage: 0.7
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { beginAtZero: true, grid: { display: false }, ticks: { color: colorPalette.darkBlue }, title: { display: true, text: '% do Total', color: colorPalette.darkBlue } },
+                        y: { grid: { display: false }, ticks: { color: colorPalette.darkBlue } }
+                    },
+                    plugins: { ...defaultTooltipOptions.plugins, legend: { display: false } }
+                }
+            });
+        }
+
+        document.querySelectorAll('.strategy-card .header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('open');
+            });
+        });
+
+    </script>
+</body>
+</html>
